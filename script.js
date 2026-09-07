@@ -1,11 +1,13 @@
-/* =========================================
-   A GIFT HIDDEN AMONG THE STARS
-   Chapter 1 — The Secret Entrance
-   Interactive Logic
-   ========================================= */
+/* =========================================================
+   🌌 A GIFT HIDDEN AMONG THE STARS
+   Chapter 1 + Chapter 2
+   Complete JavaScript
+   ========================================================= */
 
 
-/* ---------- Get Page Elements ---------- */
+/* =========================================================
+   PAGE ELEMENTS
+   ========================================================= */
 
 const passwordInput = document.getElementById("password");
 const unlockButton = document.getElementById("unlockButton");
@@ -15,23 +17,22 @@ const flowersContainer = document.getElementById("flowers");
 const loginCard = document.querySelector(".login-card");
 
 
-/* ---------- Password ---------- */
+/* =========================================================
+   SECRET PASSWORD
+   ========================================================= */
 
 const secretPassword = "Paglu18jan";
 
 
-/* =========================================
+/* =========================================================
    CREATE STARS
-   ========================================= */
+   ========================================================= */
 
 function createStars() {
 
-    /* Clear the original CSS star background */
+    if (!starsContainer) return;
 
     starsContainer.style.backgroundImage = "none";
-
-
-    /* Create individual stars */
 
     for (let i = 0; i < 85; i++) {
 
@@ -48,8 +49,6 @@ function createStars() {
 
         star.style.borderRadius = "50%";
 
-        /* Slight colour variation */
-
         const colors = [
             "rgba(255,255,255,0.95)",
             "rgba(190,220,255,0.9)",
@@ -62,13 +61,12 @@ function createStars() {
         star.style.boxShadow =
             "0 0 8px rgba(255,255,255,0.45)";
 
-        star.style.opacity =
+        const opacity =
             Math.random() * 0.7 + 0.25;
 
+        star.style.opacity = opacity;
+
         starsContainer.appendChild(star);
-
-
-        /* Every star twinkles differently */
 
         const duration =
             Math.random() * 3000 + 2500;
@@ -79,7 +77,7 @@ function createStars() {
         star.animate(
             [
                 {
-                    opacity: star.style.opacity,
+                    opacity: opacity,
                     transform: "scale(0.8)"
                 },
                 {
@@ -87,7 +85,7 @@ function createStars() {
                     transform: "scale(1.5)"
                 },
                 {
-                    opacity: star.style.opacity,
+                    opacity: opacity,
                     transform: "scale(0.8)"
                 }
             ],
@@ -102,17 +100,15 @@ function createStars() {
 }
 
 
-/* =========================================
-   CREATE FLOATING PETALS
-   ========================================= */
+/* =========================================================
+   CREATE FLOATING FLOWERS / PETALS
+   ========================================================= */
 
 function createPetals() {
 
-    /* We create a few petals at a time.
-       More will be added gradually later. */
+    if (!flowersContainer) return;
 
     const petals = ["🌸", "✿", "❀"];
-
 
     for (let i = 0; i < 7; i++) {
 
@@ -142,9 +138,6 @@ function createPetals() {
 
         flowersContainer.appendChild(petal);
 
-
-        /* Gentle floating movement */
-
         const xMovement =
             Math.random() * 40 - 20;
 
@@ -154,38 +147,24 @@ function createPetals() {
         const rotation =
             Math.random() * 80 - 40;
 
-
         const duration =
             Math.random() * 5000 + 7000;
-
 
         petal.animate(
             [
                 {
                     transform:
-                        "translate(0, 0) rotate(0deg)",
-
-                    opacity:
-                        petal.style.opacity
+                        "translate(0, 0) rotate(0deg)"
                 },
-
                 {
                     transform:
-                        `translate(${xMovement}px,
-                        ${yMovement / 2}px)
-                        rotate(${rotation / 2}deg)`,
-
-                    opacity: 0.65
+                        `translate(${xMovement}px, ${yMovement / 2}px)
+                         rotate(${rotation / 2}deg)`
                 },
-
                 {
                     transform:
-                        `translate(${xMovement * 2}px,
-                        ${yMovement}px)
-                        rotate(${rotation}deg)`,
-
-                    opacity:
-                        petal.style.opacity
+                        `translate(${xMovement * 2}px, ${yMovement}px)
+                         rotate(${rotation}deg)`
                 }
             ],
             {
@@ -199,16 +178,17 @@ function createPetals() {
 }
 
 
-/* =========================================
+/* =========================================================
    WRONG PASSWORD
-   ========================================= */
+   ========================================================= */
 
 function showError() {
 
-    errorMessage.style.display = "block";
+    if (!passwordInput || !loginCard) return;
 
-
-    /* Shake the card gently */
+    if (errorMessage) {
+        errorMessage.style.display = "block";
+    }
 
     loginCard.animate(
         [
@@ -234,17 +214,11 @@ function showError() {
         }
     );
 
-
-    /* Soft red/pink glow */
-
     passwordInput.style.borderColor =
-        "rgba(255, 120, 160, 0.75)";
+        "rgba(255,120,160,0.75)";
 
     passwordInput.style.boxShadow =
-        "0 0 20px rgba(255, 100, 150, 0.22)";
-
-
-    /* Return field to normal after a moment */
+        "0 0 20px rgba(255,100,150,0.22)";
 
     setTimeout(() => {
 
@@ -253,43 +227,82 @@ function showError() {
 
     }, 1400);
 
-
-    /* Clear the wrong password */
-
     passwordInput.value = "";
 
     passwordInput.focus();
 }
 
 
-/* =========================================
-   CORRECT PASSWORD
-   ========================================= */
+/* =========================================================
+   WAIT HELPER
+   ========================================================= */
+
+function wait(milliseconds) {
+
+    return new Promise((resolve) => {
+
+        setTimeout(resolve, milliseconds);
+
+    });
+}
+
+
+/* =========================================================
+   TYPEWRITER EFFECT
+   ========================================================= */
+
+function typeText(element, text, speed = 45) {
+
+    return new Promise((resolve) => {
+
+        element.textContent = "";
+
+        let index = 0;
+
+        const typing = setInterval(() => {
+
+            element.textContent +=
+                text.charAt(index);
+
+            index++;
+
+            if (index >= text.length) {
+
+                clearInterval(typing);
+
+                resolve();
+            }
+
+        }, speed);
+
+    });
+}
+
+
+/* =========================================================
+   UNLOCK THE STARS
+   ========================================================= */
 
 function unlockStars() {
 
-    /* Hide any previous error */
+    if (!passwordInput || !unlockButton || !loginCard) {
+        return;
+    }
 
-    errorMessage.style.display = "none";
-
-
-    /* Prevent multiple clicks */
+    if (errorMessage) {
+        errorMessage.style.display = "none";
+    }
 
     unlockButton.disabled = true;
     passwordInput.disabled = true;
 
-
-    /* Change button text */
-
     unlockButton.textContent =
         "✨ The Stars Recognize You... ✨";
 
-
-    /* Make stars glow brighter */
-
     const stars =
-        starsContainer.querySelectorAll("span");
-
+        starsContainer
+            ? starsContainer.querySelectorAll("span")
+            : [];
 
     stars.forEach((star, index) => {
 
@@ -319,8 +332,7 @@ function unlockStars() {
     });
 
 
-    /* After a short magical pause,
-       begin the personal greeting */
+    /* Move into the story */
 
     setTimeout(() => {
 
@@ -340,54 +352,23 @@ function unlockStars() {
 
         `;
 
-
         typeStory();
 
     }, 1300);
 }
 
 
-/* =========================================
-   TYPE THE PERSONAL STORY
-   ========================================= */
-
-function typeText(element, text, speed = 45) {
-
-    return new Promise((resolve) => {
-
-        element.textContent = "";
-
-        let index = 0;
-
-
-        const typing = setInterval(() => {
-
-            element.textContent +=
-                text.charAt(index);
-
-            index++;
-
-
-            if (index >= text.length) {
-
-                clearInterval(typing);
-
-                resolve();
-            }
-
-        }, speed);
-
-    });
-}
-
+/* =========================================================
+   CHAPTER 1 STORY
+   ========================================================= */
 
 async function typeStory() {
 
     const storyText =
         document.getElementById("storyText");
 
+    if (!storyText) return;
 
-    /* Message 1 */
 
     await typeText(
         storyText,
@@ -395,11 +376,8 @@ async function typeStory() {
         55
     );
 
-
     await wait(900);
 
-
-    /* Message 2 */
 
     await typeText(
         storyText,
@@ -407,11 +385,8 @@ async function typeStory() {
         75
     );
 
-
     await wait(1100);
 
-
-    /* Message 3 */
 
     await typeText(
         storyText,
@@ -419,11 +394,8 @@ async function typeStory() {
         55
     );
 
-
     await wait(1300);
 
-
-    /* Message 4 */
 
     await typeText(
         storyText,
@@ -431,89 +403,644 @@ async function typeStory() {
         55
     );
 
-
     await wait(1700);
 
 
-    /*
-       Temporary ending for Chapter 1.
-
-       Later this is where we will transition
-       directly into Chapter 2 — The Gift Awakens.
-    */
-
     storyText.style.fontSize = "1.35rem";
+
 
     await typeText(
         storyText,
         "✨ The journey is about to begin... ✨",
         45
     );
+
+
+    /* Give the final message a moment */
+
+    await wait(1800);
+
+
+    /* NOW ENTER CHAPTER 2 */
+
+    showGiftScene();
 }
 
 
-/* ---------- Small Wait Helper ---------- */
+/* =========================================================
+   CHAPTER 2 STYLE
+   Everything below is automatically created by JavaScript.
+   You do NOT need to change style.css.
+   ========================================================= */
 
-function wait(milliseconds) {
+function createGiftStyles() {
 
-    return new Promise((resolve) => {
-
-        setTimeout(resolve, milliseconds);
-
-    });
-}
-
-
-/* =========================================
-   CHECK PASSWORD
-   ========================================= */
-
-function checkPassword() {
-
-    const enteredPassword =
-        passwordInput.value.trim();
-
-
-    if (enteredPassword === secretPassword) {
-
-        unlockStars();
-
-    } else {
-
-        showError();
-
+    if (document.getElementById("giftChapterStyles")) {
+        return;
     }
-}
 
+    const style = document.createElement("style");
 
-/* ---------- Button Click ---------- */
+    style.id = "giftChapterStyles";
 
-unlockButton.addEventListener(
-    "click",
-    checkPassword
-);
+    style.textContent = `
 
+        .paglu-gift-scene {
 
-/* ---------- Enter Key ---------- */
+            position: fixed;
 
-passwordInput.addEventListener(
-    "keydown",
-    function (event) {
+            inset: 0;
 
-        if (event.key === "Enter") {
+            z-index: 999;
 
-            checkPassword();
+            display: flex;
 
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            overflow: hidden;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    circle at 50% 48%,
+                    rgba(255,183,213,0.15),
+                    transparent 35%
+                );
+
+            transition:
+                opacity 1.5s ease;
         }
 
-    }
-);
+
+        .paglu-gift-scene.visible {
+
+            opacity: 1;
+
+            pointer-events: auto;
+        }
 
 
-/* =========================================
-   START THE MAGIC
-   ========================================= */
+        .paglu-gift-message {
 
-createStars();
+            position: relative;
 
-createPetals();
+            z-index: 5;
+
+            max-width: 90%;
+
+            padding: 0 20px;
+
+            margin-bottom: 30px;
+
+            color: #fff8fc;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size:
+                clamp(1.3rem, 6vw, 2rem);
+
+            line-height: 1.45;
+
+            text-shadow:
+                0 0 10px rgba(255,255,255,0.5),
+                0 0 25px rgba(255,183,213,0.45);
+
+            animation:
+                pagluRomanticMessage
+                3s ease-in-out infinite;
+        }
+
+
+        .paglu-gift-area {
+
+            position: relative;
+
+            width: 190px;
+
+            height: 190px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+
+        .paglu-gift-glow {
+
+            position: absolute;
+
+            width: 165px;
+
+            height: 165px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,183,213,0.38),
+                    rgba(210,160,255,0.16) 45%,
+                    transparent 72%
+                );
+
+            filter: blur(16px);
+
+            animation:
+                pagluGiftGlow
+                3s ease-in-out infinite;
+        }
+
+
+        .paglu-gift-box {
+
+            position: relative;
+
+            width: 112px;
+
+            height: 88px;
+
+            margin-top: 32px;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffb7d5,
+                    #ed8fba
+                );
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,0.35),
+                0 0 28px rgba(255,183,213,0.35);
+
+            cursor: pointer;
+
+            animation:
+                pagluGiftFloat
+                3s ease-in-out infinite;
+
+            transition:
+                transform 0.4s ease;
+        }
+
+
+        .paglu-gift-box:active {
+
+            transform:
+                scale(0.94);
+        }
+
+
+        .paglu-gift-lid {
+
+            position: absolute;
+
+            left: -7px;
+
+            top: -17px;
+
+            width: 126px;
+
+            height: 26px;
+
+            border-radius: 7px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffd0e3,
+                    #f29bc3
+                );
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.18);
+
+            transform-origin:
+                center bottom;
+
+            transition:
+                transform 1s
+                cubic-bezier(.2,.8,.2,1);
+        }
+
+
+        .paglu-ribbon-vertical {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 0;
+
+            width: 18px;
+
+            height: 100%;
+
+            transform:
+                translateX(-50%);
+
+            background:
+                rgba(255,244,249,0.86);
+        }
+
+
+        .paglu-ribbon-horizontal {
+
+            position: absolute;
+
+            left: -7px;
+
+            top: 29px;
+
+            width: 126px;
+
+            height: 17px;
+
+            background:
+                rgba(255,244,249,0.86);
+        }
+
+
+        .paglu-bow {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: -30px;
+
+            width: 25px;
+
+            height: 25px;
+
+            transform:
+                translateX(-50%)
+                rotate(45deg);
+
+            border-radius: 6px;
+
+            background:
+                #fff0f7;
+
+            box-shadow:
+                0 0 14px rgba(255,255,255,0.45);
+
+            z-index: 4;
+        }
+
+
+        .paglu-bow::before,
+        .paglu-bow::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 30px;
+
+            height: 20px;
+
+            border-radius: 50%;
+
+            background:
+                #fff0f7;
+        }
+
+
+        .paglu-bow::before {
+
+            left: -21px;
+
+            top: 7px;
+
+            transform:
+                rotate(-35deg);
+        }
+
+
+        .paglu-bow::after {
+
+            right: -21px;
+
+            top: 7px;
+
+            transform:
+                rotate(35deg);
+        }
+
+
+        .paglu-tap-text {
+
+            position: relative;
+
+            z-index: 5;
+
+            margin-top: 30px;
+
+            padding: 13px 24px;
+
+            border-radius: 30px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.16);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color:
+                rgba(255,255,255,0.92);
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            font-size: 0.92rem;
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            animation:
+                pagluTapPulse
+                2.5s ease-in-out infinite;
+
+            cursor: pointer;
+        }
+
+
+        .paglu-gift-scene.opening
+        .paglu-gift-lid {
+
+            transform:
+                translateY(-30px)
+                rotate(-12deg);
+        }
+
+
+        .paglu-gift-scene.opening
+        .paglu-gift-box {
+
+            animation:
+                pagluGiftOpen
+                1.2s ease forwards;
+        }
+
+
+        .paglu-gift-scene.opening
+        .paglu-tap-text {
+
+            opacity: 0;
+
+            transition:
+                opacity 0.4s ease;
+        }
+
+
+        .paglu-gift-light {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            width: 10px;
+
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            box-shadow:
+                0 0 25px 10px rgba(255,255,255,0.85),
+                0 0 70px 30px rgba(255,183,213,0.6),
+                0 0 120px 55px rgba(190,150,255,0.4);
+
+            transform:
+                translate(-50%, -50%)
+                scale(0);
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        .paglu-gift-scene.opening
+        .paglu-gift-light {
+
+            animation:
+                pagluGiftLight
+                1.7s ease-out forwards;
+        }
+
+
+        @keyframes pagluGiftGlow {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(0.92);
+
+                opacity:
+                    0.65;
+            }
+
+            50% {
+
+                transform:
+                    scale(1.08);
+
+                opacity:
+                    1;
+            }
+        }
+
+
+        @keyframes pagluGiftFloat {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+            50% {
+
+                transform:
+                    translateY(-9px)
+                    rotate(1deg);
+            }
+        }
+
+
+        @keyframes pagluRomanticMessage {
+
+            0%,
+            100% {
+
+                opacity:
+                    0.88;
+            }
+
+            50% {
+
+                opacity:
+                    1;
+            }
+        }
+
+
+        @keyframes pagluTapPulse {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(1);
+
+                box-shadow:
+                    0 0 0
+                    rgba(255,183,213,0);
+            }
+
+            50% {
+
+                transform:
+                    scale(1.035);
+
+                box-shadow:
+                    0 0 22px
+                    rgba(255,183,213,0.15);
+            }
+        }
+
+
+        @keyframes pagluGiftOpen {
+
+            0% {
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+            45% {
+
+                transform:
+                    translateY(-8px)
+                    scale(1.08);
+            }
+
+            100% {
+
+                transform:
+                    translateY(0)
+                    scale(1.02);
+            }
+        }
+
+
+        @keyframes pagluGiftLight {
+
+            0% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0);
+
+                opacity:
+                    0;
+            }
+
+            35% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(5);
+
+                opacity:
+                    0.9;
+            }
+
+            100% {
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(25);
+
+                opacity:
+                    0;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .paglu-gift-message {
+
+                font-size:
+                    1.3rem;
+
+                margin-bottom:
+                    25px;
+            }
+
+            .paglu-gift-area {
+
+                transform:
+                    scale(0.94);
+            }
+
+            .paglu-tap-text {
+
+                font-size:
+                    0.88rem;
+            }
+        }
+
+    `;
+
+    document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   CHAPTER 2 — SHOW GIFT
+   ========================================================= */
+
+function showGiftScene() {
+
+    createGiftStyles();
+
+
+    const giftScene =
+        document.createElement("div");
+
+    giftScene.className =
+        "paglu-gift-scene";
+
+
+    giftScene.i
