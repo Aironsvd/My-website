@@ -509,7 +509,6 @@ passwordInput.addEventListener(
     }
 );
 
-
 /* =========================================
    START THE MAGIC
    ========================================= */
@@ -517,3 +516,6 @@ passwordInput.addEventListener(
 createStars();
 
 createPetals();
+    await wait(1800);
+
+    showGiftScene();
