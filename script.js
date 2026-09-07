@@ -1043,4 +1043,195 @@ function showGiftScene() {
         "paglu-gift-scene";
 
 
-    giftScene.i
+    giftScene.innerHTML = `
+
+<div class="paglu-gift-message">
+
+A little something for you... 💗
+
+</div>
+
+
+<div class="paglu-gift-area">
+
+<div class="paglu-gift-glow"></div>
+
+<div class="paglu-gift-box">
+
+<div class="paglu-gift-lid"></div>
+
+<div class="paglu-ribbon-vertical"></div>
+
+<div class="paglu-ribbon-horizontal"></div>
+
+<div class="paglu-bow"></div>
+
+</div>
+
+</div>
+
+
+<div class="paglu-tap-text">
+
+🎁 Tap the gift to open it
+
+</div>
+
+
+<div class="paglu-gift-light"></div>
+
+`;
+
+
+document.body.appendChild(giftScene);
+
+
+/* Let the browser render first */
+
+requestAnimationFrame(() => {
+
+giftScene.classList.add("visible");
+
+});
+
+
+const giftBox =
+giftScene.querySelector(
+".paglu-gift-box"
+);
+
+
+const tapText =
+giftScene.querySelector(
+".paglu-tap-text"
+);
+
+
+giftBox.addEventListener(
+"click",
+() => {
+
+openGift(giftScene);
+
+}
+);
+
+
+tapText.addEventListener(
+"click",
+() => {
+
+openGift(giftScene);
+
+}
+);
+}
+
+
+/* =========================================================
+OPEN THE GIFT
+========================================================= */
+
+function openGift(giftScene) {
+
+if (
+giftScene.classList.contains("opening")
+) {
+return;
+}
+
+
+giftScene.classList.add("opening");
+
+
+setTimeout(() => {
+
+const message =
+giftScene.querySelector(
+".paglu-gift-message"
+);
+
+
+message.textContent =
+"✨ Something beautiful is waiting... ✨";
+
+
+message.style.opacity = "1";
+
+message.style.transform =
+"translateY(0)";
+
+
+}, 1500);
+}
+
+
+/* =========================================================
+CHECK PASSWORD
+========================================================= */
+
+function checkPassword() {
+
+if (!passwordInput) return;
+
+
+const enteredPassword =
+passwordInput.value.trim();
+
+
+if (
+enteredPassword ===
+secretPassword
+) {
+
+unlockStars();
+
+} else {
+
+showError();
+
+}
+}
+
+
+/* =========================================================
+BUTTON
+========================================================= */
+
+if (unlockButton) {
+
+unlockButton.addEventListener(
+"click",
+checkPassword
+);
+}
+
+
+/* =========================================================
+ENTER KEY
+========================================================= */
+
+if (passwordInput) {
+
+passwordInput.addEventListener(
+"keydown",
+function(event) {
+
+if (event.key === "Enter") {
+
+checkPassword();
+
+}
+
+}
+);
+}
+
+
+/* =========================================================
+START EVERYTHING
+========================================================= */
+
+createStars();
+
+createPetals();
